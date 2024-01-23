@@ -2,9 +2,8 @@ package io.github.GuaMaia.service.impl;
 
 import io.github.GuaMaia.domain.entity.Usuario;
 import io.github.GuaMaia.domain.repository.UsuarioRepository;
+import io.github.GuaMaia.exception.SenhaInvalidaException;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +23,15 @@ public class UsuarioServiceImpl implements UserDetailsService {
         return repository.save(usuario);
     }
 
+    public UserDetails autenticar ( Usuario usuario ) {
+        UserDetails user = loadUserByUsername(usuario.getLogin());
+        boolean senhaBatem = encoder.matches(usuario.getSenha(), user.getPassword());
+
+        if(senhaBatem){
+            return user;
+        }
+        throw new SenhaInvalidaException();
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = repository.findByLogin(username)
