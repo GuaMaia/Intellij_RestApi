@@ -9,6 +9,7 @@ import io.github.GuaMaia.rest.dto.InformacoesItemPedidoDTO;
 import io.github.GuaMaia.rest.dto.InformacoesPedidoDTO;
 import io.github.GuaMaia.rest.dto.PedidoDTO;
 import io.github.GuaMaia.service.PedidoService;
+import io.swagger.annotations.*;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pedidos")
+@Api("Api Pedidos")
 public class PedidoController{
 
     // Repositorio
@@ -37,12 +39,20 @@ public class PedidoController{
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Salvar Pedido")
+    @ApiResponses({
+            @ApiResponse( code = 201 , message = "Pedido salvo com sucesso"),
+            @ApiResponse( code = 400 , message = "Erro Validação.")})
     public Integer save (@RequestBody  PedidoDTO dto){
         Pedido pedido = service.salvar(dto);
         return pedido.getId();
     }
     @GetMapping("{id}")
-    public InformacoesPedidoDTO getById(@PathVariable Integer id){
+    @ApiOperation("Obter detalhes de um pedido")
+    @ApiResponses({
+            @ApiResponse( code = 200 , message = "Pedido encontrado"),
+            @ApiResponse( code = 404 , message = "Pedido não encontrado para Id informado.")})
+    public InformacoesPedidoDTO getById(@PathVariable @ApiParam("Id do Pedido") Integer id){
         return service.
                 obterPedidoCompleto(id)
                 .map(p -> converter(p))
@@ -78,7 +88,11 @@ public class PedidoController{
 
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateStatus(@PathVariable Integer id,
+    @ApiOperation("Obter Status do pedido")
+    @ApiResponses({
+            @ApiResponse( code = 200 , message = "Status do Pedido"),
+            @ApiResponse( code = 404 , message = "Pedido não encontrado para Id informado.")})
+    public void updateStatus(@PathVariable  @ApiParam("Id do Pedido") Integer id,
                              @RequestBody AtualizacaoStatusPedidoDTO dto){
         String novoStatus = dto.getNovoStatus();
         service.atualizarStatus(id, StatusPedido.valueOf(novoStatus));

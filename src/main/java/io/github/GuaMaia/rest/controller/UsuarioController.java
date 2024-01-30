@@ -6,6 +6,7 @@ import io.github.GuaMaia.rest.dto.CredenciaisDTO;
 import io.github.GuaMaia.rest.dto.TokenDTO;
 import io.github.GuaMaia.service.impl.UsuarioServiceImpl;
 import io.github.GuaMaia.security.jwt.JwtService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/usuarios")
 @RequiredArgsConstructor
+@Api("Api Usuários")
 public class UsuarioController {
 
     // Construtor UsuarioServiceImpl
