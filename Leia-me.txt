@@ -1,0 +1,13 @@
+Segue as informações sobre o projeto.
+
+Ferramenta : IntelliJ IDEA 
+
+Projeto :
+O projeto foi ideializado sobre o curso de Api RestFull, feito na Udemy.
+
+
+Banco de Dados : MySql
+
+Importante
+Sou especialista em Delphi e desenvolvi um projeto que está no repositório 
+https://github.com/GuaMaia/Delphi_Api
